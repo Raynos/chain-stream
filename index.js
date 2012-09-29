@@ -5,6 +5,7 @@ var map = require("lazy-map-stream")
     , partial = require("ap").partial
     , forEach = require("for-each")
     , to = require("write-stream").toArray
+    , from = require("read-stream").fromArray
 
     , slice = Array.prototype.slice
     , methods = {
@@ -13,11 +14,16 @@ var map = require("lazy-map-stream")
         , reductions: reductions
         , flatten: flatten
         , log: log
+        , value: value
     }
 
 module.exports = chain
 
 function chain(stream) {
+    if (Array.isArray(stream)) {
+        stream = from(stream)
+    }
+
     forEach(methods, applyMethod, stream)
 
     return stream
@@ -41,4 +47,9 @@ function log(stream, message) {
     function logState(state) {
         console.log(message || "[CHAIN.LOG]", state)
     }
+}
+
+function value(stream, callback) {
+    stream.pipe(to(callback))
+    return stream
 }
