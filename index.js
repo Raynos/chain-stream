@@ -2,8 +2,10 @@ var map = require("lazy-map-stream")
     , reductions = require("lazy-reductions-stream")
     , flatten = require("lazy-flatten-stream")
     , filter = require("lazy-filter-stream")
+    , concat = require("lazy-concat-stream")
     , partial = require("ap").partial
     , forEach = require("for-each")
+    , forEachStream = require("for-each-stream")
     , to = require("write-stream").toArray
     , from = require("read-stream").fromArray
 
@@ -14,6 +16,8 @@ var map = require("lazy-map-stream")
         , reductions: reductions
         , flatten: flatten
         , log: log
+        , forEach: forEachStream
+        , concat: concat
         , value: value
     }
 
