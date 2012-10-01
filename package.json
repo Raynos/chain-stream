@@ -26,7 +26,9 @@
     "write-stream": "~0.4.0",
     "read-stream": "~0.4.2",
     "for-each-stream": "~0.1.1",
-    "lazy-concat-stream": "~0.1.0"
+    "lazy-concat-stream": "~0.1.0",
+    "proxy-stream": "~0.2.7",
+    "lazy-concat-map-stream": "~0.1.0"
   },
   "devDependencies": {
     "tap": "~0.3.1"

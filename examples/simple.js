@@ -17,6 +17,6 @@ chain([1,2,3,4,5])
         console.log("has read", !!stream.read)
     })
     .flatten()
-    .value(function (state) {
+    .toArray(function (state) {
         console.log("final state", state)
     })

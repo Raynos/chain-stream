@@ -3,6 +3,8 @@ var map = require("lazy-map-stream")
     , flatten = require("lazy-flatten-stream")
     , filter = require("lazy-filter-stream")
     , concat = require("lazy-concat-stream")
+    , concatMap = require("lazy-concat-map-stream")
+    , transformation = require("proxy-stream")
     , partial = require("ap").partial
     , forEach = require("for-each")
     , forEachStream = require("for-each-stream")
@@ -18,7 +20,9 @@ var map = require("lazy-map-stream")
         , log: log
         , forEach: forEachStream
         , concat: concat
-        , value: value
+        , concatMap: concatMap
+        , transformation: transformation
+        , toArray: toArray
     }
 
 module.exports = chain
@@ -53,7 +57,7 @@ function log(stream, message) {
     }
 }
 
-function value(stream, callback) {
+function toArray(stream, callback) {
     stream.pipe(to(callback))
     return stream
 }
