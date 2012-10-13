@@ -198,6 +198,15 @@ test("concat", function (t) {
         })
 })
 
+test("concat with streams", function (t) {
+    s()
+        .concat(fromArray([4, 5, 6]))
+        .toArray(function (list) {
+            t.deepEqual(list, six)
+            t.end()
+        })
+})
+
 test("lazyPipe", function (t) {
     s()
         .lazyPipe(ReadWriteStream(function (value, queue) {

@@ -30,6 +30,7 @@ methods.transform = transform
 methods.toArray = toArray
 methods.concat = concat
 methods.lazyPipe = lazyPipe
+methods.log = log
 
 module.exports = chain
 
@@ -108,7 +109,10 @@ function concat() {
                 stream = fromArray(stream)
             }
 
-            return stream
+            var buffer = ReadWriteStream().stream
+
+            stream.pipe(buffer)
+            return buffer
         })
 
     var stream = fromArray(streams)
@@ -160,6 +164,12 @@ function toArray(stream, callback) {
     return stream
 }
 
+function log(source, str) {
+    source.pipe(streamToArray(function (value) {
+        console.log(str, value)
+    }))
+    return source
+}
 
 /*
 
@@ -240,14 +250,16 @@ function transform(source, transformation) {
 
             endCount--
             if (ended && endCount === 0) {
-                pipeQueue.end()
+                // pipeQueue.end()
+                pipeStream.emit("end")
             }
         }
 
         function end() {
             ended = true
             if (endCount === 0) {
-                pipeQueue.end()
+                // pipeQueue.end()
+                pipeStream.emit("end")
             }
         }
     }
