@@ -17,21 +17,19 @@
     "email": "raynos2@gmail.com"
   },
   "dependencies": {
-    "lazy-map-stream": "~0.1.5",
-    "lazy-reductions-stream": "~0.2.0",
-    "lazy-flatten-stream": "~0.1.0",
-    "lazy-filter-stream": "~0.1.1",
-    "ap": "~0.1.0",
+    "read-write-stream": "~0.1.0",
+    "read-stream": "~0.4.5",
+    "write-stream": "~0.4.1",
     "for-each": "~0.1.0",
-    "write-stream": "~0.4.0",
-    "read-stream": "~0.4.2",
-    "for-each-stream": "~0.1.1",
-    "lazy-concat-stream": "~0.1.0",
-    "proxy-stream": "~0.2.7",
-    "lazy-concat-map-stream": "~0.1.0"
+    "to-array": "~0.1.3",
+    "ap": "git://github.com/Raynos/node-ap"
   },
   "devDependencies": {
-    "tap": "~0.3.1"
+    "tap": "~0.3.1",
+    "trycatch": "git://github.com/Raynos/trycatch",
+    "clarify": "~0.2.1",
+    "stack-chain": "~0.2.0",
+    "testem": "~0.2.12"
   },
   "licenses": [
     {
