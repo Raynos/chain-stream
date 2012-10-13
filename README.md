@@ -217,6 +217,44 @@ var sums = things.reductionsAsync(function (sum , v, cb) {
 })
 ```
 
+### Take
+
+take returns a stream containing only the first n elements
+
+```
+var firstTen = things.take(10)
+```
+
+### drop
+
+drop returns a streaming that doesn't contain the first n elements
+
+```
+var restButTen = things.drop(10)
+```
+
+### Take While
+
+take while returns a stream containing the first n elements while the
+iterator returns true
+
+```
+var sensible = things.takeWhile(isSensible)
+```
+
+take while is serial by default. Parallel doesn't make much sense
+
+### Drop while
+
+drop while returns a stream with the first n elements dropped while the
+iterator returns true
+
+```
+var withoutFirstSensible = things.dropWhile(isSesnsible)
+```
+
+drop while is serial by default. Parallel doesn't make much sense
+
 ### Flatten
 
 flatten flattens out all the items if the items are an array or a stream
@@ -248,7 +286,36 @@ var numbers = concat(evens, odds)
 
 ## Consumption functions
 
+A consumption function starts consumign items in the stream
 
+### forEach
+
+call the iterator for each item
+
+`things.forEach(console.log)`
+
+### reduce
+
+call the iterator with the current accumulator and the value for
+each item.
+
+```
+things.reduce(function (acc, v) {
+    /* ... */
+}, initial)
+```
+
+This will need a combination function as well if it's asynchronous.
+
+```
+things.reduce(function reduction(acc, v, cb) {
+    /* do asynchronous reduction */
+}, function combine(acc, value) {
+    /* do synchronous combination */
+}, function done(err, value) {
+    /* final reduced value */
+})
+```
 
 ## Contributors
 
