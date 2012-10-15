@@ -114,22 +114,6 @@ test("reductionsSync", function (t) {
         })
 })
 
-test("reductionsAsync with combination", function (t) {
-    var counts = [500, 400, 300]
-
-    s()
-        .reductionsAsync(function (acc, value, callback) {
-            setTimeout(function () {
-                callback(null, { count: acc.count + value })
-            }, counts.shift())
-        }, addTogether, { count: 0 })
-        .toArray(function (list) {
-            var last = list[list.length - 1]
-            t.equal(last.count, 6)
-            t.end()
-        })
-})
-
 test("concatMapAsync", function (t) {
     s()
         .concatMapAsync(function (value, callback) {
@@ -375,22 +359,125 @@ test("reduce", function (t) {
         })
 })
 
-test("reduceAsync with combinations", function (t) {
-    var counts = [500, 400, 300]
-
+test("reduceAsync", function (t) {
     s()
         .reduceAsync(function (acc, value, callback) {
+            callback(null, acc + value)
+        }, 0, function (value) {
+            t.equal(value, 6)
+            t.end()
+        })
+})
+
+test("async map reduce", function (t) {
+    slow()
+        // double them
+        .mapAsync(function mapping(value, callback) {
+            setTimeout(function later() {
+                callback(null, value * 2)
+            }, 20)
+        })
+        .reduce(function reducing(acc, value) {
+            return value + acc
+        }, 0, function result(value) {
+            t.equal(value, 30)
+            t.end()
+        })
+})
+
+test("first nonending", function (t) {
+    nonending()
+        .first(function (value) {
+            t.equal(value, 1)
+            t.end()
+        })
+})
+
+test("someSync", function (t) {
+    s()
+        .some(function (value) {
+            return value === 2
+        }, function (result) {
+            t.equal(result, 2)
+            t.end()
+        })
+})
+
+test("someAsync", function (t) {
+    s()
+        .someAsync(function (value, callback) {
             setTimeout(function () {
-                callback(null, { count: acc.count + value })
-            }, counts.shift())
-        }, addTogether, { count: 0 }, function (value) {
-            t.equal(value.count, 6)
+                callback(null, value === 2)
+            }, 50)
+        }, function (result) {
+            t.equal(result, 2)
+            t.end()
+        })
+})
+
+test("some returns false for no match", function (t) {
+    s()
+        .some(function (value) {
+            return value === 4
+        }, function (result) {
+            t.equal(result, false)
+            t.end()
+        })
+})
+
+test("everySync", function (t) {
+    s()
+        .every(function (value) {
+            return value !== 2
+        }, function (result) {
+            t.equal(result, 2)
+            t.end()
+        })
+})
+
+test("everyAsync", function (t) {
+    s()
+        .everyAsync(function (value, callback) {
+            setTimeout(function () {
+                callback(null, value !== 2)
+            }, 50)
+        }, function (result) {
+            t.equal(result, 2)
+            t.end()
+        })
+})
+
+test("every returns true for no match", function (t) {
+    s()
+        .every(function (v) {
+            return typeof v === "number"
+        }, function (result) {
+            t.equal(result, true)
             t.end()
         })
 })
 
 function s() {
     return chain([1, 2, 3])
+}
+
+function slow() {
+    var queue = ReadStream()
+
+    later(100, 1)
+    later(200, 2)
+    later(300, 3)
+    later(400, 4)
+    later(500, 5)
+    later(600, null)
+
+    return chain(queue.stream)
+
+    function later(time, value) {
+        setTimeout(function () {
+            queue.push(value)
+        }, time)
+    }
 }
 
 function nonending() {

@@ -40,17 +40,24 @@ chain([1,2,3,4,5])
     })
     // Flatten the stream of streams into a single stream
     .flatten()
-    .value(function (state) {
+    .toArray(function (state) {
         // [5, 10, 15, 20, 40, 60, 45, 90, 135, 54, 106, 159]
         console.log("final state", state)
     })
 ```
 
-`log` and `value` are just utility methods that make the debugging easier.
+`log` and `toArray` are just utility methods that make the debugging easier.
 
 ## Installation
 
 `npm install chain-stream`
+
+## TODO
+
+ - `first` and `last` as `firstStream` and `lastStream`
+    Basically if it can return a value it can return said
+    value as a stream so that it can be reduced or mapped further
+ - Serial as a base Transformation function. i.e. `transformSerial`
 
 # Contents
 
