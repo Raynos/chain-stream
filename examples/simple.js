@@ -1,7 +1,7 @@
 var chain = require("..")
     , fromArray = require("read-stream").fromArray
 
-chain([1,2,3,4,5])
+var stream = chain([1,2,3,4,5])
     .log("initial state")
     .map(function (x) { return x * 5 })
     .log("mapped state")
@@ -17,6 +17,9 @@ chain([1,2,3,4,5])
     //     console.log("has read", !!stream.read)
     // })
     .flatten()
-    .toArray(function (state) {
-        console.log("final state", state)
-    })
+
+console.log("consuming stream")
+
+stream.toArray(function (state) {
+    console.log("final state", state)
+})

@@ -66,11 +66,9 @@ There are different types of iterators. They are useful and can be combined
 
 `chain.method[Sync or Async][Parallel or Serial]`
 
-It should be noted that `chain.method` defaults to sync and parallel for
-transformations and serial for consumption.
+It should be noted that `chain.method` defaults to sync and parallel.
 
-Similarly `chain.methodAsync` and `chain.methodSync` default to parallel
-for transformations and serial for consumptions.
+Similarly `chain.methodAsync` and `chain.methodSync` default to parallel.
 
 Also `chain.methodParallel` and `chain.methodSerial` default to sync.
 

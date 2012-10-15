@@ -22,10 +22,12 @@
     "write-stream": "~0.4.1",
     "for-each": "~0.1.0",
     "to-array": "~0.1.3",
-    "ap": "git://github.com/Raynos/node-ap"
+    "ap": "git://github.com/Raynos/node-ap",
+    "xtend": "~1.0.3",
+    "weakmap": "0.0.6"
   },
   "devDependencies": {
-    "tap": "~0.3.1",
+    "tap": "git://github.com/airportyh/node-tap.git#exclusive_tests",
     "trycatch": "git://github.com/Raynos/trycatch",
     "clarify": "~0.2.1",
     "stack-chain": "~0.2.0",
