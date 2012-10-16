@@ -41,6 +41,6 @@
     }
   ],
   "scripts": {
-    "test": "tap --stderr --tap ./test"
+    "test": "tap --stderr --tap ./test/test.js"
   }
 }

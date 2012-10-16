@@ -324,27 +324,14 @@ test("forEach", function (t) {
         })
 })
 
-test("consume", function (t) {
-    var count = 0
-
-    s()
-        .map(function (value) {
-            count += value
-        })
-        .consume()
-        .once("finish", function () {
-            t.equal(count, 6)
-            t.end()
-        })
-})
-
 test("last", function (t) {
-    s()
+    slow()
         .reductions(function (acc, value) {
             return acc + value
         }, 0)
-        .last(function (value) {
-            t.equal(value, 6)
+        .last()
+        .value(function (value) {
+            t.equal(value, 15)
             t.end()
         })
 })
@@ -353,7 +340,8 @@ test("reduce", function (t) {
     s()
         .reduce(function (acc, value) {
             return acc + value
-        }, 0, function (value) {
+        }, 0)
+        .value(function (value) {
             t.equal(value, 6)
             t.end()
         })
@@ -363,7 +351,8 @@ test("reduceAsync", function (t) {
     s()
         .reduceAsync(function (acc, value, callback) {
             callback(null, acc + value)
-        }, 0, function (value) {
+        }, 0)
+        .value(function (value) {
             t.equal(value, 6)
             t.end()
         })
@@ -379,7 +368,8 @@ test("async map reduce", function (t) {
         })
         .reduce(function reducing(acc, value) {
             return value + acc
-        }, 0, function result(value) {
+        }, 0)
+        .value(function result(value) {
             t.equal(value, 30)
             t.end()
         })
@@ -387,7 +377,8 @@ test("async map reduce", function (t) {
 
 test("first nonending", function (t) {
     nonending()
-        .first(function (value) {
+        .first()
+        .value(function (value) {
             t.equal(value, 1)
             t.end()
         })
@@ -397,7 +388,8 @@ test("someSync", function (t) {
     s()
         .some(function (value) {
             return value === 2
-        }, function (result) {
+        })
+        .value(function (result) {
             t.equal(result, 2)
             t.end()
         })
@@ -409,7 +401,8 @@ test("someAsync", function (t) {
             setTimeout(function () {
                 callback(null, value === 2)
             }, 50)
-        }, function (result) {
+        })
+        .value(function (result) {
             t.equal(result, 2)
             t.end()
         })
@@ -419,7 +412,8 @@ test("some returns false for no match", function (t) {
     s()
         .some(function (value) {
             return value === 4
-        }, function (result) {
+        })
+        .value(function (result) {
             t.equal(result, false)
             t.end()
         })
@@ -429,7 +423,8 @@ test("everySync", function (t) {
     s()
         .every(function (value) {
             return value !== 2
-        }, function (result) {
+        })
+        .value(function (result) {
             t.equal(result, 2)
             t.end()
         })
@@ -441,7 +436,8 @@ test("everyAsync", function (t) {
             setTimeout(function () {
                 callback(null, value !== 2)
             }, 50)
-        }, function (result) {
+        })
+        .value(function (result) {
             t.equal(result, 2)
             t.end()
         })
@@ -451,8 +447,24 @@ test("every returns true for no match", function (t) {
     s()
         .every(function (v) {
             return typeof v === "number"
-        }, function (result) {
+        })
+        .value(function (result) {
             t.equal(result, true)
+            t.end()
+        })
+})
+
+test("reduceAsyncSerial", function (t) {
+    var times = [30, 25, 20, 15, 10]
+
+    slow()
+        .reduceAsyncSerial(function (acc, v, callback) {
+            setTimeout(function () {
+                callback(null, acc + v)
+            }, times.shift())
+        }, 0)
+        .value(function (sum) {
+            t.equal(sum, 15)
             t.end()
         })
 })
@@ -464,12 +476,12 @@ function s() {
 function slow() {
     var queue = ReadStream()
 
-    later(100, 1)
-    later(200, 2)
-    later(300, 3)
-    later(400, 4)
-    later(500, 5)
-    later(600, null)
+    later(10, 1)
+    later(20, 2)
+    later(30, 3)
+    later(40, 4)
+    later(50, 5)
+    later(60, null)
 
     return chain(queue.stream)
 
