@@ -59,9 +59,9 @@ test("mapAsync", function (t) {
         })
 })
 
-test("mapSync", function (t) {
+test("map", function (t) {
     s()
-        .mapSync(function (value) {
+        .map(function (value) {
             return value * 2
         })
         .toArray(function (list) {
@@ -81,9 +81,9 @@ test("filterAsync", function (t) {
         })
 })
 
-test("filterSync", function (t) {
+test("filter", function (t) {
     s()
-        .filterSync(function (value) {
+        .filter(function (value) {
             return value % 2
         })
         .toArray(function (list) {
@@ -103,9 +103,9 @@ test("reductionsAsync", function (t) {
         })
 })
 
-test("reductionsSync", function (t) {
+test("reductions", function (t) {
     s()
-        .reductionsSync(function (acc, value) {
+        .reductions(function (acc, value) {
             return acc + value
         }, 0)
         .toArray(function (list) {
@@ -125,9 +125,9 @@ test("concatMapAsync", function (t) {
         })
 })
 
-test("concatMapSync", function (t) {
+test("concatMap", function (t) {
     s()
-        .concatMapSync(function (value) {
+        .concatMap(function (value) {
             return [value, value * 2]
         })
         .toArray(function (list) {
@@ -182,9 +182,9 @@ test("removeAsync", function (t) {
         })
 })
 
-test("removeSync", function (t) {
+test("remove", function (t) {
     s()
-        .removeSync(function (value) {
+        .remove(function (value) {
             return value % 2
         })
         .toArray(function (list) {
@@ -235,7 +235,7 @@ test("dropWhileAsync", function (t) {
 
 test("dropWhile", function (t) {
     s()
-        .dropWhileSync(function (value) {
+        .dropWhile(function (value) {
             return value < 2
         })
         .toArray(function (list) {
@@ -246,7 +246,7 @@ test("dropWhile", function (t) {
 
 test("drop", function (t) {
     s()
-        .dropSync(2)
+        .drop(2)
         .toArray(function (list) {
             t.deepEqual(list, twoPlus)
             t.end()
@@ -273,9 +273,9 @@ test("takeWhileAsync", function (t) {
         })
 })
 
-test("takeWhileSync", function (t) {
+test("takeWhile", function (t) {
     s()
-        .takeWhileSync(function (value) {
+        .takeWhile(function (value) {
             return value < 3
         })
         .toArray(function (list) {
@@ -293,9 +293,9 @@ test("takeAsync", function (t) {
         })
 })
 
-test("takeSync", function (t) {
+test("take", function (t) {
     s()
-        .takeSync(2)
+        .take(2)
         .toArray(function (list) {
             t.deepEqual(list, firstTwo)
             t.end()
@@ -384,7 +384,7 @@ test("first nonending", function (t) {
         })
 })
 
-test("someSync", function (t) {
+test("some", function (t) {
     s()
         .some(function (value) {
             return value === 2
@@ -419,7 +419,7 @@ test("some returns false for no match", function (t) {
         })
 })
 
-test("everySync", function (t) {
+test("every", function (t) {
     s()
         .every(function (value) {
             return value !== 2
@@ -454,11 +454,11 @@ test("every returns true for no match", function (t) {
         })
 })
 
-test("reduceAsyncSerial", function (t) {
+test("reduceSerial", function (t) {
     var times = [30, 25, 20, 15, 10]
 
     slow()
-        .reduceAsyncSerial(function (acc, v, callback) {
+        .reduceSerial(function (acc, v, callback) {
             setTimeout(function () {
                 callback(null, acc + v)
             }, times.shift())
