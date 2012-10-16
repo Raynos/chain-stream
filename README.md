@@ -38,6 +38,7 @@ chain(fromArray([1,2,3,4,5]))
         .filter(function (v) {
             return v % 5 === 0
         })
+        // sum them asynchronously but serially to conserve sum.
         .reduceSerial(function reducing(acc, value, callback) {
             setTimeout(function later() {
                 callback(null, acc + value)
