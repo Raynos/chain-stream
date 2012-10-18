@@ -1,21 +1,13 @@
-/*global WeakMap: true*/
-
 module.exports = chain
 
 var forEachObject = require("for-each")
     , fromArray = require("read-stream").fromArray
-    , ReadWriteStream = require("read-write-stream")
-    , argumentsToArray = require("to-array")
-
-    , lazyTransform = require("./lib/transformParallel")
-    , LazyPipe = require("./lib/lazyPipe")
+    , toArray = require("to-array")
     , extend = require("xtend")
 
     , transformations = require("./lib/transformations")
     , consumers = require("./lib/consumers")
     , methods = extend({}, transformations, consumers)
-
-methods.transform = lazyTransform
 
 /*
 
@@ -39,7 +31,7 @@ function addMethod(method, methodName) {
     stream[methodName] = call
 
     function call() {
-        var args = argumentsToArray(arguments)
+        var args = toArray(arguments)
         args.unshift(stream)
         return chain(method.apply(null, args))
     }

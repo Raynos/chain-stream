@@ -318,7 +318,7 @@ test("forEach", function (t) {
         .forEach(function (value) {
             count += value
         })
-        .once("finish", function () {
+        .once("end", function () {
             t.equal(count, 6)
             t.end()
         })

@@ -90,7 +90,7 @@ The iterator is asynchronous.
 i.e. it is finished some time later when the callback function is called
 
 ``` js
-thing.asyncMap(function iterator(value, end) {
+thing.mapAsync(function iterator(value, end) {
     setTimeout(function later() {
         callback(null, value * 2)
     }, 500)
