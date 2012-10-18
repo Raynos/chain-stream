@@ -15,7 +15,8 @@ var test = require("tap").test
     , evens = [2]
     , doubles = [2, 4, 6]
     , twice = [1, 2, 2, 4, 3, 6]
-    , six = [1,2,3,4,5,6]
+    , six = [1, 2, 3, 4, 5, 6]
+    , threeFives = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
 
 stackchain.filter.attach(function (error, frames) {
     return frames.filter(function (callSite) {
@@ -152,7 +153,7 @@ test("flatten", function (t) {
         .map(function (value) {
             return fromArray([value, value * 2])
         })
-        .flattenAsync()
+        .flatten()
         .toArray(function (list) {
             t.deepEqual(list, twice)
             t.end()
@@ -167,6 +168,18 @@ test("flatten arrays", function (t) {
         .flatten()
         .toArray(function (list) {
             t.deepEqual(list, twice)
+            t.end()
+        })
+})
+
+test("flatten serial", function (t) {
+    s()
+        .map(function () {
+            return slow()
+        })
+        .flattenSerial()
+        .toArray(function (list) {
+            t.deepEqual(threeFives, list)
             t.end()
         })
 })
