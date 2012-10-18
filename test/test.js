@@ -343,8 +343,8 @@ test("last", function (t) {
             return acc + value
         }, 0)
         .last()
-        .value(function (value) {
-            t.equal(value, 15)
+        .toArray(function (value) {
+            t.equal(value[0], 15)
             t.end()
         })
 })
