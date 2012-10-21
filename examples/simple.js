@@ -24,6 +24,12 @@ stream.toArray(function (state) {
     console.log("final state", state)
 })
 
+chain.toArray(chain.map(fromArray([1,2,3]), function (x) {
+    return x * 2
+}), function (state) {
+    console.log("functions", state)
+})
+
 function log(str) {
     return function (list) {
         console.log(str, list)

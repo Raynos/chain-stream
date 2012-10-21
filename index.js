@@ -1,13 +1,14 @@
 module.exports = chain
 
-var forEachObject = require("for-each")
+var forEach = require("for-each")
     , fromArray = require("read-stream").fromArray
     , toArray = require("to-array")
     , extend = require("xtend")
 
     , transformations = require("./lib/transformations")
     , consumers = require("./lib/consumers")
-    , methods = extend({}, transformations, consumers)
+
+extend(chain, transformations, consumers)
 
 /*
 
@@ -20,7 +21,7 @@ function chain(stream) {
         stream = fromArray(stream)
     }
 
-    forEachObject(methods, addMethod, stream)
+    forEach(chain, addMethod, stream)
 
     return stream
 }
